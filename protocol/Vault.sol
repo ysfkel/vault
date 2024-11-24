@@ -37,6 +37,8 @@ contract  Vault is IVault, Initializable, UUPSUpgradeable, AccessControlUpgradea
     event Trade(address sender, address aggregator);
     event Deposit(address account, uint256 amount);
     event Withdraw(address sender,address to, uint256 amount);
+    event SetAggregatorAdapter(address sender, address swapper, address adapter);
+    event RemoveAggregatorAdapter(address sender, address swapper, address swapper);
 
     bytes32 public constant WITHDRAW_ROLE = keccak256("WITHDRAW_ROLE");
     bytes32 public constant TRADER_ROLE = keccak256("TRADER_ROLE");
@@ -100,11 +102,13 @@ contract  Vault is IVault, Initializable, UUPSUpgradeable, AccessControlUpgradea
     /// @inheritdoc IVault
     function setAggregatorAdapter(address swapper, address adapter) external onlyRole(DEFAULT_ADMIN_ROLE) {
         swapAdapter[swapper] = adapter;
+        emit SetAggregatorAdapter(msg.sender, swapper, adapter);
     }
 
     /// @inheritdoc IVault
     function removeAggregatorAdapter(address swapper) external onlyRole(DEFAULT_ADMIN_ROLE) {
         delete swapAdapter[swapper];
+        emit RemoveAggregatorAdapter(msg.sender, swapper, swapper);
     }
  
 
