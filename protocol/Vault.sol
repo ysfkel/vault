@@ -33,12 +33,14 @@ contract  Vault is IVault, Initializable, UUPSUpgradeable, AccessControlUpgradea
     error Vault__ZeroAddress();
     error Vault__ZeroAmount();
     error Vault__UnsupportedSwapper(address); 
+    error Vault__DepositFailed();
+    error Vault__WithdrawFailed();
 
-    event Trade(address sender, address aggregator);
-    event Deposit(address account, uint256 amount);
-    event Withdraw(address sender,address to, uint256 amount);
-    event SetAggregatorAdapter(address sender, address swapper, address adapter);
-    event RemoveAggregatorAdapter(address sender, address swapper, address swapper);
+    event Trade(address indexed sender, address indexed aggregator);
+    event Deposit(address indexed account, uint256 amount);
+    event Withdraw(address indexed sender,address indexed to, uint256 amount);
+    event SetAggregatorAdapter(address indexed sender, address indexed swapper, address adapter);
+    event RemoveAggregatorAdapter(address indexed sender, address indexed swapper, address adapter);
 
     bytes32 public constant WITHDRAW_ROLE = keccak256("WITHDRAW_ROLE");
     bytes32 public constant TRADER_ROLE = keccak256("TRADER_ROLE");
@@ -68,7 +70,7 @@ contract  Vault is IVault, Initializable, UUPSUpgradeable, AccessControlUpgradea
     /// @inheritdoc IVault
     function deposit(uint256 amount) external whenNotPaused {
         if(amount == 0) revert Vault__ZeroAmount();
-        asset.transferFrom(msg.sender, address(this), amount);
+        if(!asset.transferFrom(msg.sender, address(this), amount)) revert Vault__DepositFailed();
         emit Deposit(msg.sender, amount);
     }
     
@@ -78,7 +80,8 @@ contract  Vault is IVault, Initializable, UUPSUpgradeable, AccessControlUpgradea
         if(amount == 0) revert Vault__ZeroAmount();
         if(to == address(0)) revert Vault__ZeroAddress();
 
-        asset.transfer(to, amount);
+        if(!asset.transfer(to, amount)) revert Vault__WithdrawFailed();
+
         emit Withdraw(msg.sender, to, amount);
     }
 
