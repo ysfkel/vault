@@ -69,7 +69,7 @@ interface ISwapAdapter {
 
 ### IGenericSwapExactAmountIn
 
-This interface defines the structure for executing a swap with a specific amount in using Paraswaps  [AugustusSwapper v6.2](https://developers.paraswap.network/augustus-swapper/augustus-v6.2). Click on this link to [find more details.](https://developers.paraswap.network/augustus-swapper/augustus-v6.2)
+This interface defines the structure for executing a swap using Paraswap's  [AugustusSwapper v6.2](https://developers.paraswap.network/augustus-swapper/augustus-v6.2). Click on this link to [find more details.](https://developers.paraswap.network/augustus-swapper/augustus-v6.2)
 
 ```solidity
 interface IGenericSwapExactAmountIn {
