@@ -36,7 +36,6 @@ contract VaultTest is Test {
        vault =  Vault(proxy);
        vault.grantRole(vault.WITHDRAW_ROLE(), WITHDRAW_USER);
        vault.grantRole(vault.TRADER_ROLE(), TRADER_USER);
- 
     }
 
     function test_constructor() public view {
