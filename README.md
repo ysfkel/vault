@@ -57,7 +57,7 @@ interface  IVault {
 ```
 
 ### ISwapAdapter
-This interface defines the specifcation for DEX aggregators as well as DEXes. its receives bytes data and converts it to the calldata expected by the DEX aggregator or DEX router
+This interface defines the specifcation for DEX aggregators as well as DEXes. it receives bytes data and converts it to the calldata expected by the DEX aggregator or DEX router
 ```solidity
 interface ISwapAdapter {
     function getTradeCalldata(bytes calldata tradeData)

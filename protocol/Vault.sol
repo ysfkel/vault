@@ -56,6 +56,9 @@ contract  Vault is IVault, Initializable, UUPSUpgradeable, AccessControlUpgradea
     /// @param _adapter The address of the adapter
     function initialize(string memory _name, string memory _symbol,address _asset, address _swapper, address _adapter ) external initializer {
         if(_asset == address(0)) revert Vault__ZeroAddress();
+        if(_swapper == address(0)) revert Vault__ZeroAddress();
+        if(_adapter == address(0)) revert Vault__ZeroAddress();
+        
         __ERC20_init(_name, _symbol);
         __UUPSUpgradeable_init();
         __AccessControl_init();
